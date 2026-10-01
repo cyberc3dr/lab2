@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Links</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<header class="header">
+    <div class="container header-inner">
+        <a href="index.html" class="logo">🔗 Links</a>
+        <nav class="nav">
+            <a href="index.html" class="nav-link">Просмотр ссылок</a>
+            <a href="manage.html" class="nav-link">Добавить / удалить</a>
+            <a href="contacts.html" class="nav-link active">Контакты</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <h1>Контакты предприятия</h1>
+
+    <div class="contact-grid">
+        <div class="contact-card">
+            <h2>Адрес</h2>
+            <p>ООО «Цифровые Решения»</p>
+            <p>г. Нижний Новгород, пр. Гагарина, д. 10</p>
+            <p><a href="https://yandex.ru/maps/?text=Нижний Новгород, пр. Гагарина, д. 10" target="_blank" rel="noopener">Показать на карте ↗</a></p>
+        </div>
+        <div class="contact-card">
+            <h2>Связь</h2>
+            <div class="contact-row">
+                <span>📞 +7 (495) 123-45-67</span>
+                <button class="btn btn-secondary" data-copy="+78311234567">Копировать</button>
+            </div>
+            <div class="contact-row">
+                <span>✉️ info@example.com</span>
+                <button class="btn btn-secondary" data-copy="info@example.com">Копировать</button>
+            </div>
+        </div>
+        <div class="contact-card">
+            <h2>Часы работы</h2>
+            <p>Пн–Пт: 09:00 — 18:00</p>
+            <p>Сб–Вс: выходной</p>
+        </div>
+    </div>
+</main>
+
+<footer class="footer container muted small">
+    © 2026 ООО «Цифровые Решения»
+</footer>
+
+<div id="toast" class="toast" role="status"></div>
+<script src="js/common.js"></script>
+<script src="js/contacts.js"></script>
+
+</body>
+
+</html>

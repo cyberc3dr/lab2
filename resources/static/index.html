@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Links</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="container header-inner">
+        <a href="index.html" class="logo">🔗 Links</a>
+        <nav class="nav">
+            <a href="index.html" class="nav-link active">Просмотр ссылок</a>
+            <a href="manage.html" class="nav-link">Добавить / удалить</a>
+            <a href="contacts.html" class="nav-link">Контакты</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="toolbar">
+        <h1>Полезные ссылки</h1>
+        <div class="toolbar-actions">
+            <input type="search" id="search" class="input" placeholder="Поиск по названию или URL…" autocomplete="off">
+            <button id="refresh" class="btn btn-secondary">Обновить</button>
+        </div>
+    </section>
+
+    <p id="counter" class="muted small"></p>
+    <div id="links-list" class="cards"></div>
+    <div id="empty" class="empty hidden">
+        <p>Ссылок пока нет или ничего не найдено по запросу.</p>
+        <a href="manage.html" class="btn btn-primary">Добавить первую ссылку</a>
+    </div>
+</main>
+
+<footer class="footer container muted small">
+    Links - сервис хранения ссылок. Хранилище в памяти, до 50 записей.
+</footer>
+
+<div id="toast" class="toast" role="status"></div>
+<script src="js/common.js"></script>
+<script src="js/links.js"></script>
+
+</body>
+
+</html>
