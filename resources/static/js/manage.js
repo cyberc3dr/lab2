@@ -42,12 +42,12 @@ async function loadLinks() {
         emptyEl.classList.toggle('hidden', allLinksCache.length > 0);
         listEl.innerHTML = allLinksCache.map(link => `
             <article class="card">
-                <div class="card__body">
-                    <h2 class="card__title">${escapeHtml(link.title)}</h2>
-                    <a class="card__url" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.url)}</a>
-                    ${link.description ? `<p class="card__desc">${escapeHtml(link.description)}</p>` : ''}
+                <div class="card-body">
+                    <h2 class="card-title">${escapeHtml(link.title)}</h2>
+                    <a class="card-url" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.url)}</a>
+                    ${link.description ? `<p class="card-desc">${escapeHtml(link.description)}</p>` : ''}
                 </div>
-                <div class="card__actions">
+                <div class="card-actions">
                     <button class="btn btn--secondary" data-action="edit" data-id="${link.id}">Изменить</button>
                     <button class="btn btn--danger" data-action="delete" data-id="${link.id}" data-title="${escapeHtml(link.title)}">Удалить</button>
                 </div>
