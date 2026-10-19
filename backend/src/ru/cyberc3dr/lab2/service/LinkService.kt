@@ -12,7 +12,7 @@ class LinkService(
 
     override fun getAll() = repository.findAll()
 
-    override fun getById(id: Long) = repository.findById(id) ?: throw LinkNotFoundException(id)
+    override fun getById(id: Long): Link = repository.findById(id).orElseThrow { LinkNotFoundException(id) }
 
     override fun create(title: String, url: String, description: String?) =
         repository.save(Link(id = 0L, title = title, url = url, description = description))
@@ -24,10 +24,13 @@ class LinkService(
             url = url,
             description = description?.trim()?.ifBlank { null }
         )
-        return repository.update(updated) ?: throw LinkNotFoundException(id)
+
+        return repository.save(updated)
     }
 
     override fun delete(id: Long) {
-        if(!repository.deleteById(id)) throw LinkNotFoundException(id)
+        val success = runCatching { repository.deleteById(id) }.isSuccess
+
+        if(!success) throw LinkNotFoundException(id)
     }
 }

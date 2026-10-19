@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.kotlin)
+    alias(libs.plugins.spring.jpa)
 }
 
 group = "ru.cyberc3dr"
@@ -16,9 +17,13 @@ dependencies {
     implementation(libs.spring.web)
     implementation(libs.spring.validation)
     implementation(libs.spring.openapi)
+    implementation(libs.spring.data.jpa)
+    implementation(libs.postgresql)
+    implementation(libs.liquibase)
 
     implementation(libs.jackson.kotlin)
     implementation(libs.kotlin.reflect)
+    testImplementation(kotlin("test"))
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(25))
