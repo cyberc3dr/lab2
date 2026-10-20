@@ -26,11 +26,15 @@ data class Link(
     @Column(name = "description", columnDefinition = "text")
     var description: String? = null,
 
+    @Column(name = "user_id")
+    var userId: Long? = null,
+
     @Column(name = "created_at", nullable = false, updatable = false)
     var createdAt: Instant = Instant.now()
 )
 
 @Repository
 interface LinkRepository : JpaRepository<Link, Long> {
-
+    fun findByUserIdIsNull(): List<Link>
+    fun findByUserIdIsNullOrUserId(userId: Long): List<Link>
 }

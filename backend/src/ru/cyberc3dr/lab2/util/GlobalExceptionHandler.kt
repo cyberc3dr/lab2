@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.resource.NoResourceFoundException
+import ru.cyberc3dr.lab2.ForbiddenException
+import ru.cyberc3dr.lab2.InvalidCredentialsException
 import ru.cyberc3dr.lab2.LinkNotFoundException
 import ru.cyberc3dr.lab2.StorageLimitExceededException
+import ru.cyberc3dr.lab2.UnauthorizedException
+import ru.cyberc3dr.lab2.UsernameAlreadyExistsException
 import java.time.Instant
 
 @Schema(description = "Стандартный формат тела ошибки")
@@ -39,6 +43,26 @@ class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     fun storageFull(ex: StorageLimitExceededException) =
         ErrorResponse(409, "Conflict", ex.message ?: "Хранилище заполнено")
+
+    @ExceptionHandler(UsernameAlreadyExistsException::class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    fun usernameExists(ex: UsernameAlreadyExistsException) =
+        ErrorResponse(409, "Conflict", ex.message ?: "Пользователь уже существует")
+
+    @ExceptionHandler(UnauthorizedException::class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    fun unauthorized(ex: UnauthorizedException) =
+        ErrorResponse(401, "Unauthorized", ex.message ?: "Требуется аутентификация")
+
+    @ExceptionHandler(InvalidCredentialsException::class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    fun invalidCredentials(ex: InvalidCredentialsException) =
+        ErrorResponse(401, "Unauthorized", ex.message ?: "Неверный логин или пароль")
+
+    @ExceptionHandler(ForbiddenException::class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    fun forbidden(ex: ForbiddenException) =
+        ErrorResponse(403, "Forbidden", ex.message ?: "Доступ запрещён")
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

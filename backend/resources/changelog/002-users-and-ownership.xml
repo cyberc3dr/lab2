@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- Пользователи и привязка ссылок к владельцам -->
+    <changeSet id="002-create-users-table" author="max">
+        <createTable tableName="users">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="varchar(100)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uq_users_username"/>
+            </column>
+            <column name="password" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(20)" defaultValue="USER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="003-links-user-owner" author="max">
+        <addColumn tableName="links">
+            <column name="user_id" type="bigint" defaultValueComputed="NULL">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint
+                baseTableName="links"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                constraintName="fk_links_user_id"
+                onDelete="CASCADE"/>
+
+        <createIndex indexName="idx_links_user_id" tableName="links">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Тестовые данные и демо-аккаунты (bcrypt-хеши паролей):
+         admin / admin123  -> роль ADMIN
+         user  / user123   -> роль USER -->
+    <changeSet id="004-seed-users-and-links" author="max">
+        <insert tableName="users">
+            <column name="username" value="admin"/>
+            <column name="password" value="$2y$10$yOWgz8035kEvSdnkX/ESguvTYBgHfIgvFEMDgaC0P6eoMGzxL3GB."/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+        <insert tableName="users">
+            <column name="username" value="user"/>
+            <column name="password" value="$2y$10$UeS3jXuE.KsNbNHyU7qn1uNsY6.YI4WHhZ5spAnwSCFI65JrAElvy"/>
+            <column name="role" value="USER"/>
+        </insert>
+
+        <!-- Публичные ссылки (user_id = null) -->
+        <insert tableName="links">
+            <column name="title" value="Документация Kotlin"/>
+            <column name="url" value="https://kotlinlang.org/docs/home.html"/>
+            <column name="description" value="Официальная документация языка Kotlin"/>
+        </insert>
+        <insert tableName="links">
+            <column name="title" value="Spring Framework Reference"/>
+            <column name="url" value="https://docs.spring.io/spring-framework/reference/"/>
+            <column name="description" value="Справочная документация Spring Framework"/>
+        </insert>
+        <insert tableName="links">
+            <column name="title" value="Spring Boot Reference"/>
+            <column name="url" value="https://docs.spring.io/spring-boot/reference/"/>
+            <column name="description" value="Документация Spring Boot"/>
+        </insert>
+        <insert tableName="links">
+            <column name="title" value="PostgreSQL Documentation"/>
+            <column name="url" value="https://www.postgresql.org/docs/current/"/>
+            <column name="description" value="Документация СУБД PostgreSQL"/>
+        </insert>
+        <insert tableName="links">
+            <column name="title" value="Liquibase Documentation"/>
+            <column name="url" value="https://docs.liquibase.com/"/>
+            <column name="description" value="Миграции базы данных через Liquibase"/>
+        </insert>
+
+        <!-- Приватные ссылки пользователя user -->
+        <insert tableName="links">
+            <column name="title" value="Kotlin Coroutines Guide"/>
+            <column name="url" value="https://kotlinlang.org/docs/coroutines-guide.html"/>
+            <column name="description" value="Руководство по корутинам"/>
+            <column name="user_id" valueComputed="(SELECT id FROM users WHERE username = 'user')"/>
+        </insert>
+        <insert tableName="links">
+            <column name="title" value="Baeldung: Spring Security"/>
+            <column name="url" value="https://www.baeldung.com/spring-security"/>
+            <column name="description" value="Статьи по Spring Security"/>
+            <column name="user_id" valueComputed="(SELECT id FROM users WHERE username = 'user')"/>
+        </insert>
+        <insert tableName="links">
+            <column name="title" value="RFC 6749: OAuth 2.0"/>
+            <column name="url" value="https://www.rfc-editor.org/rfc/rfc6749"/>
+            <column name="description" value="Спецификация OAuth 2.0"/>
+            <column name="user_id" valueComputed="(SELECT id FROM users WHERE username = 'user')"/>
+        </insert>
+
+        <!-- Синхронизируем sequence'ы с фактическими данными -->
+        <sql>
+            SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
+            SELECT setval('links_id_seq', (SELECT MAX(id) FROM links));
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

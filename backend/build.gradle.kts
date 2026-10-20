@@ -16,10 +16,15 @@ repositories {
 dependencies {
     implementation(libs.spring.web)
     implementation(libs.spring.validation)
+    implementation(libs.spring.security)
     implementation(libs.spring.openapi)
     implementation(libs.spring.data.jpa)
     implementation(libs.postgresql)
     implementation(libs.liquibase)
+
+    implementation(libs.jjwt.api)
+    runtimeOnly(libs.jjwt.impl)
+    runtimeOnly(libs.jjwt.jackson)
 
     implementation(libs.jackson.kotlin)
     implementation(libs.kotlin.reflect)

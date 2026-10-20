@@ -20,6 +20,14 @@ server:
   address: 0.0.0.0
   port: 8080
 
+app:
+  jwt:
+    # Секрет подписи JWT (минимум 32 байта). Задаётся через переменную окружения APP_JWT_SECRET
+    # (см. .env и docker-compose.yaml). Значение по умолчанию - только для локальной разработки.
+    # Генерация нового секрета: openssl rand -base64 48
+    secret: "${APP_JWT_SECRET:eKTi83Ikd1pYcuI/uLpYU01gwO8l8GM6YfMjP9tfU+aiYEaHe9zbEORxHcHibV9n}"
+    ttl-minutes: 1440
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

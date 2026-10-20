@@ -21,7 +21,10 @@ data class LinkRequest(
 
     @field:Size(max = 300, message = "Описание - не длиннее 300 символов")
     @field:Schema(description = "Описание ссылки", example = "Description")
-    val description: String? = null
+    val description: String? = null,
+
+    @field:Schema(description = "Публичная ссылка (доступна анонимно). Только для админа", example = "false")
+    val isPublic: Boolean = false
 )
 
 @Schema(description = "Стандартный формат ответа ссылки")
@@ -39,7 +42,10 @@ data class LinkResponse(
     val description: String?,
 
     @field:Schema(description = "Время создания (ISO-8601)", example = "2025-01-15T10:30:00Z")
-    val createdAt: Instant
+    val createdAt: Instant,
+
+    @field:Schema(description = "ID владельца (null = публичная ссылка)", example = "1")
+    val userId: Long? = null
 )
 
-fun Link.toResponse() = LinkResponse(id, title, url, description, createdAt)
+fun Link.toResponse() = LinkResponse(id, title, url, description, createdAt, userId)

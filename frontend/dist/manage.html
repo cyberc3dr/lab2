@@ -17,6 +17,7 @@
             <a href="index.html" class="nav-link">Просмотр ссылок</a>
             <a href="manage.html" class="nav-link active">Добавить / удалить</a>
             <a href="contacts.html" class="nav-link">Контакты</a>
+            <a href="login.html" class="nav-link" id="auth-link">Войти</a>
         </nav>
     </div>
 </header>
@@ -24,7 +25,16 @@
 <main class="container">
     <h1>Управление ссылками</h1>
 
-    <section class="form-card">
+    <section id="auth-required" class="form-card hidden">
+        <h2>Требуется вход</h2>
+        <p>Добавлять, изменять и удалять ссылки можно только после входа в аккаунт.</p>
+        <div class="form-actions">
+            <a href="login.html?next=manage.html" class="btn btn-primary">Войти</a>
+            <a href="index.html" class="btn btn-secondary">К просмотру ссылок</a>
+        </div>
+    </section>
+
+    <section class="form-card" id="link-form-card">
         <h2 id="form-title">Новая ссылка</h2>
         <form id="link-form" novalidate>
             <input type="hidden" id="link-id">
@@ -39,6 +49,12 @@
             <div class="field">
                 <label for="description">Описание</label>
                 <textarea class="textarea" id="description" rows="2" maxlength="300" placeholder="Необязательное описание"></textarea>
+            </div>
+            <div class="field hidden" id="public-field">
+                <label>
+                    <input type="checkbox" id="is-public">
+                    Публичная ссылка — видна всем без входа (создаёт только админ)
+                </label>
             </div>
             <div class="form-actions">
                 <button type="submit" id="submit-btn" class="btn btn-primary">Добавить ссылку</button>
@@ -55,7 +71,7 @@
 </main>
 
 <footer class="footer container muted small">
-    Links - сервис хранения ссылок. Хранилище в памяти, до 50 записей.
+    Links - сервис хранения ссылок.
 </footer>
 
 <div id="toast" class="toast" role="status"></div>
